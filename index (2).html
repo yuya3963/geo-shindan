@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEO診断ツール｜あなたの店はAIに認識されていますか？</title>
+<meta name="description" content="ChatGPT・Perplexity・GeminiなどのAI検索で、あなたの店がどう認識されているかを無料診断。会津・福島エリアの中小企業向けGEO最適化サービス。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg2: #111111;
+    --bg3: #1a1a1a;
+    --border: #2a2a2a;
+    --border2: #333;
+    --text: #f0f0f0;
+    --text2: #999;
+    --text3: #555;
+    --accent: #e8ff00;
+    --accent2: #b8cc00;
+    --red: #ff4444;
+    --green: #00cc88;
+    --orange: #ff9900;
+    --blue: #4499ff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(232,255,0,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hero-label::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 12vw, 96px);
+    line-height: 0.95;
+    letter-spacing: 0.02em;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub {
+    font-size: clamp(14px, 3vw, 18px);
+    color: var(--text2);
+    max-width: 480px;
+    margin-bottom: 2.5rem;
+    line-height: 1.8;
+  }
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--accent);
+    color: #000;
+    padding: 14px 28px;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    font-family: 'Noto Sans JP', sans-serif;
+  }
+  .hero-cta:hover { background: var(--accent2); transform: translateY(-1px); }
+  .hero-cta::after { content: '↓'; font-size: 18px; }
+  .hero-stats {
+    display: flex;
+    gap: 2rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+  .stat-item { }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label { font-size: 11px; color: var(--text3); letter-spacing: 0.1em; }
+
+  /* FORM SECTION */
+  .form-section {
+    padding: 5rem 1.5rem;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-label::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+  .form-title {
+    font-size: clamp(24px, 5vw, 36px);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+  .form-desc {
+    font-size: 14px;
+    color: var(--text2);
+    margin-bottom: 2.5rem;
+    line-height: 1.8;
+  }
+  .form-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 2rem;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .form-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1rem; }
+  .form-field:last-child { margin-bottom: 0; }
+  label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--text2);
+    text-transform: uppercase;
+  }
+  label span { color: var(--accent); }
+  input, textarea {
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    color: var(--text);
+    padding: 12px 14px;
+    font-size: 15px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    outline: none;
+    transition: border 0.2s;
+    width: 100%;
+  }
+  input:focus, textarea:focus { border-color: var(--accent); }
+  input::placeholder, textarea::placeholder { color: var(--text3); }
+  .submit-btn {
+    width: 100%;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Noto Sans JP', sans-serif;
+    margin-top: 1.5rem;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .submit-btn:hover { background: var(--accent2); }
+  .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .free-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text2);
+    margin-top: 1rem;
+    justify-content: center;
+  }
+  .free-badge::before { content: '✓'; color: var(--green); }
+
+  /* LOADING */
+  .loading-section {
+    display: none;
+    padding: 3rem 1.5rem;
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .loading-title {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 2rem;
+  }
+  .progress-bar {
+    width: 100%;
+    height: 2px;
+    background: var(--border2);
+    margin-bottom: 2rem;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.5s ease;
+  }
+  .step-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+  }
+  .step-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text3);
+    transition: all 0.3s;
+  }
+  .step-row.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(232,255,0,0.04);
+  }
+  .step-row.done { color: var(--green); border-color: var(--border); }
+  .step-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+  }
+
+  /* RESULT */
+  .result-section {
+    display: none;
+    padding: 3rem 1.5rem 5rem;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .score-hero {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    margin-bottom: 1rem;
+  }
+  .score-ring {
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    border: 3px solid var(--accent);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .score-ring.red { border-color: var(--red); }
+  .score-ring.orange { border-color: var(--orange); }
+  .score-ring.green { border-color: var(--green); }
+  .score-big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 38px;
+    line-height: 1;
+  }
+  .score-big.red { color: var(--red); }
+  .score-big.orange { color: var(--orange); }
+  .score-big.green { color: var(--green); }
+  .score-denom { font-size: 11px; color: var(--text3); }
+  .score-info h2 { font-size: 20px; font-weight: 500; margin-bottom: 6px; }
+  .score-info p { font-size: 13px; color: var(--text2); line-height: 1.7; }
+  .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 1rem;
+  }
+  .metric-box {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 1rem;
+  }
+  .metric-name { font-size: 10px; color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+  .metric-val { font-size: 18px; font-weight: 500; }
+  .metric-val.good { color: var(--green); }
+  .metric-val.warn { color: var(--orange); }
+  .metric-val.bad { color: var(--red); }
+  .block-title {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--text3);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .block-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .ai-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 1rem;
+    margin-bottom: 6px;
+  }
+  .ai-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .ai-name { font-size: 14px; font-weight: 500; }
+  .ai-status {
+    font-size: 10px;
+    padding: 3px 10px;
+    letter-spacing: 0.05em;
+  }
+  .ai-status.hit { background: rgba(0,204,136,0.15); color: var(--green); }
+  .ai-status.partial { background: rgba(255,153,0,0.15); color: var(--orange); }
+  .ai-status.miss { background: rgba(255,68,68,0.15); color: var(--red); }
+  .ai-quote { font-size: 13px; color: var(--text2); line-height: 1.7; font-style: italic; }
+  .action-card {
+    display: flex;
+    gap: 14px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 1rem;
+    margin-bottom: 6px;
+  }
+  .action-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--accent);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 24px;
+  }
+  .action-body { font-size: 13px; line-height: 1.7; }
+  .action-body strong { display: block; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+  .action-body span { color: var(--text2); }
+  .cta-block {
+    background: var(--accent);
+    color: #000;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .cta-block p { font-size: 14px; font-weight: 500; line-height: 1.7; margin-bottom: 1rem; }
+  .cta-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .cta-btn {
+    background: #000;
+    color: var(--accent);
+    border: none;
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Noto Sans JP', sans-serif;
+    transition: opacity 0.2s;
+  }
+  .cta-btn:hover { opacity: 0.8; }
+  .reset-btn {
+    width: 100%;
+    background: transparent;
+    color: var(--text2);
+    border: 1px solid var(--border2);
+    padding: 12px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'Noto Sans JP', sans-serif;
+    margin-top: 1rem;
+    transition: all 0.2s;
+  }
+  .reset-btn:hover { border-color: var(--text2); color: var(--text); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text3);
+  }
+  footer a { color: var(--text2); text-decoration: none; }
+
+  @media (max-width: 520px) {
+    .form-row { grid-template-columns: 1fr; }
+    .metrics-row { grid-template-columns: 1fr 1fr; }
+    .score-hero { flex-direction: column; text-align: center; }
+    .hero-stats { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-label">GEO Diagnosis Tool</div>
+  <h1>あなたの店は<br><span>AIに</span><br>存在しますか？</h1>
+  <p class="hero-sub">ChatGPT・Perplexity・Geminiで検索されたとき、あなたの店は出てきますか？無料でスコアを診断します。</p>
+  <button class="hero-cta" onclick="document.getElementById('form-anchor').scrollIntoView({behavior:'smooth'})">今すぐ無料診断する</button>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">3</div>
+      <div class="stat-label">AI Platform Check</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">60秒</div>
+      <div class="stat-label">診断時間</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">¥0</div>
+      <div class="stat-label">完全無料</div>
+    </div>
+  </div>
+</section>
+
+<!-- FORM -->
+<section class="form-section" id="form-anchor">
+  <div id="form-block">
+    <div class="section-label">Diagnosis</div>
+    <h2 class="form-title">店舗情報を入力して<br>診断スタート</h2>
+    <p class="form-desc">入力した情報をもとに、各AIがあなたの店をどう認識しているかをスコアリングします。</p>
+    <div class="form-card">
+      <div class="form-row">
+        <div class="form-field">
+          <label>店舗名 <span>*</span></label>
+          <input id="f-name" placeholder="例：麺酔ぃ処山" />
+        </div>
+        <div class="form-field">
+          <label>業種 <span>*</span></label>
+          <input id="f-industry" placeholder="例：ラーメン店" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label>エリア <span>*</span></label>
+          <input id="f-area" placeholder="例：会津若松市" />
+        </div>
+        <div class="form-field">
+          <label>ターゲット客層</label>
+          <input id="f-target" placeholder="例：観光客・地元ファミリー" />
+        </div>
+      </div>
+      <div class="form-field">
+        <label>強み・特徴（任意）</label>
+        <input id="f-strength" placeholder="例：深夜営業・会津産食材・駐車場あり" />
+      </div>
+      <button class="submit-btn" id="submit-btn" onclick="startDiagnosis()">
+        AI診断を開始する
+        <span style="font-size:18px">→</span>
+      </button>
+      <div class="free-badge">完全無料・登録不要・60秒で完了</div>
+    </div>
+  </div>
+
+  <!-- LOADING -->
+  <div class="loading-section" id="loading-block">
+    <div class="loading-title">診断中...</div>
+    <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+    <div class="step-list">
+      <div class="step-row" id="s0"><span class="step-dot"></span>店舗情報を解析中</div>
+      <div class="step-row" id="s1"><span class="step-dot"></span>ChatGPT視点でシミュレーション</div>
+      <div class="step-row" id="s2"><span class="step-dot"></span>Perplexity視点でシミュレーション</div>
+      <div class="step-row" id="s3"><span class="step-dot"></span>Gemini視点でシミュレーション</div>
+      <div class="step-row" id="s4"><span class="step-dot"></span>GEOスコアを算出中</div>
+      <div class="step-row" id="s5"><span class="step-dot"></span>改善アクションを生成中</div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULT -->
+<section class="result-section" id="result-block"></section>
+
+<footer>
+  <p>GEO診断ツール — Powered by AI</p>
+  <p style="margin-top:8px"><a href="mailto:">お問い合わせ</a>｜会津・福島エリアの店舗向けGEO最適化サービス</p>
+</footer>
+
+<script>
+const API = 'https://api.anthropic.com/v1/messages';
+const API_KEY = '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';
+
+function scoreColor(s) {
+  if (s >= 70) return 'green';
+  if (s >= 40) return 'orange';
+  return 'red';
+}
+function metricClass(v) {
+  if (v === '高' || v === '優位') return 'good';
+  if (v === '中' || v === '互角') return 'warn';
+  return 'bad';
+}
+function statusClass(s) {
+  if (s === 'hit') return 'hit';
+  if (s === 'partial') return 'partial';
+  return 'miss';
+}
+function statusLabel(s) {
+  if (s === 'hit') return '言及あり';
+  if (s === 'partial') return '部分的';
+  return '未言及';
+}
+
+async function startDiagnosis() {
+  const name = document.getElementById('f-name').value.trim();
+  const industry = document.getElementById('f-industry').value.trim();
+  const area = document.getElementById('f-area').value.trim();
+  const target = document.getElementById('f-target').value.trim();
+  const strength = document.getElementById('f-strength').value.trim();
+  if (!name || !industry || !area) { alert('店舗名・業種・エリアは必須です'); return; }
+
+  document.getElementById('form-block').style.display = 'none';
+  document.getElementById('loading-block').style.display = 'block';
+
+  let cur = 0;
+  const interval = setInterval(() => {
+    if (cur > 0) { document.getElementById(`s${cur-1}`).className = 'step-row done'; }
+    if (cur < 6) {
+      document.getElementById(`s${cur}`).className = 'step-row active';
+      document.getElementById('prog').style.width = `${Math.round((cur+1)/6*80)}%`;
+      cur++;
+    }
+  }, 700);
+
+  const prompt = `あなたはGEO（Generative Engine Optimization）の専門家です。以下の店舗を診断し、JSONのみで回答してください。説明文・マークダウン不要。
+
+店舗名:${name} 業種:${industry} エリア:${area} ターゲット:${target||'未入力'} 強み:${strength||'未入力'}
+
+{"score":数字1-100,"grade":"S/A/B/C/D","summary":"現状30文字以内","detail":"根拠60文字以内","metrics":{"visibility":"低/中/高","accuracy":"低/中/高","competitive":"不利/互角/優位"},"ai_results":[{"name":"ChatGPT","status":"hit/partial/miss","quote":"想定回答50文字以内"},{"name":"Perplexity","status":"hit/partial/miss","quote":"想定回答50文字以内"},{"name":"Gemini","status":"hit/partial/miss","quote":"想定回答50文字以内"}],"actions":[{"title":"アクション1","detail":"実施内容50文字以内"},{"title":"アクション2","detail":"実施内容50文字以内"},{"title":"アクション3","detail":"実施内容50文字以内"}],"cta":"月額サービス提案40文字以内"}`;
+
+  try {
+    const res = await fetch(API, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': API_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    clearInterval(interval);
+    document.getElementById('prog').style.width = '100%';
+    await new Promise(r => setTimeout(r, 400));
+    document.getElementById('loading-block').style.display = 'none';
+
+    const raw = data.content.filter(b => b.type === 'text').map(b => b.text).join('');
+    const d = JSON.parse(raw.replace(/```json|```/g, '').trim());
+    renderResult(d, name, industry, area);
+  } catch(e) {
+    clearInterval(interval);
+    document.getElementById('loading-block').style.display = 'none';
+    document.getElementById('form-block').style.display = 'block';
+    alert('診断中にエラーが発生しました。もう一度お試しください。');
+  }
+}
+
+function renderResult(d, name, industry, area) {
+  const sc = scoreColor(d.score);
+  const aiRows = d.ai_results.map(a => `
+    <div class="ai-card">
+      <div class="ai-card-head">
+        <span class="ai-name">${a.name}</span>
+        <span class="ai-status ${statusClass(a.status)}">${statusLabel(a.status)}</span>
+      </div>
+      <div class="ai-quote">「${a.quote}」</div>
+    </div>`).join('');
+  const actionRows = d.actions.map((a,i) => `
+    <div class="action-card">
+      <div class="action-num">0${i+1}</div>
+      <div class="action-body"><strong>${a.title}</strong><span>${a.detail}</span></div>
+    </div>`).join('');
+
+  document.getElementById('result-block').innerHTML = `
+    <div class="section-label">Result</div>
+    <div class="score-hero">
+      <div class="score-ring ${sc}">
+        <div class="score-big ${sc}">${d.score}</div>
+        <div class="score-denom">/ 100</div>
+      </div>
+      <div class="score-info">
+        <h2>${name} — ${d.grade}ランク</h2>
+        <p>${d.summary}<br><span style="font-size:12px;color:var(--text3)">${d.detail}</span></p>
+      </div>
+    </div>
+    <div class="metrics-row">
+      <div class="metric-box"><div class="metric-name">AI表示率</div><div class="metric-val ${metricClass(d.metrics.visibility)}">${d.metrics.visibility}</div></div>
+      <div class="metric-box"><div class="metric-name">情報精度</div><div class="metric-val ${metricClass(d.metrics.accuracy)}">${d.metrics.accuracy}</div></div>
+      <div class="metric-box"><div class="metric-name">競合比較</div><div class="metric-val ${metricClass(d.metrics.competitive)}">${d.metrics.competitive}</div></div>
+    </div>
+    <div class="block-title">AI Platform Status</div>
+    ${aiRows}
+    <div class="block-title">Priority Actions</div>
+    ${actionRows}
+    <div class="cta-block">
+      <p>${d.cta}</p>
+      <div class="cta-btns">
+        <button class="cta-btn" onclick="window.location.href='mailto:?subject=GEO診断結果：${encodeURIComponent(name)}&body=${encodeURIComponent('GEOスコア：'+d.score+'点（'+d.grade+'ランク）\n\n'+d.summary)}'">結果をメールで送る</button>
+        <button class="cta-btn" onclick="alert('お問い合わせありがとうございます。\nGEO改善プランについてご連絡します。')">改善プランを相談する</button>
+      </div>
+    </div>
+    <button class="reset-btn" onclick="resetForm()">← 別の店舗を診断する</button>
+  `;
+  document.getElementById('result-block').style.display = 'block';
+  document.getElementById('result-block').scrollIntoView({ behavior: 'smooth' });
+}
+
+function resetForm() {
+  document.getElementById('result-block').style.display = 'none';
+  document.getElementById('result-block').innerHTML = '';
+  document.getElementById('form-block').style.display = 'block';
+  for (let i = 0; i < 6; i++) document.getElementById(`s${i}`).className = 'step-row';
+  document.getElementById('prog').style.width = '0%';
+  document.getElementById('form-anchor').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
