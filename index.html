@@ -151,7 +151,8 @@ async function runDiagnosis(){
     const data=await res.json();
     if(!data.ok)throw new Error(data.error);
     clearInterval(msgInterval);
-    renderResult(data.result,shopName);
+    const result = data.result || data;
+renderResult(result,shopName);
   }catch(e){
     clearInterval(msgInterval);
     document.getElementById('loadingState').classList.remove('active');
