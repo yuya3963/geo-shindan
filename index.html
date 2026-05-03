@@ -188,6 +188,12 @@ function resetForm(){
   ['shopName','area','target','strength'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('industry').value='';
   document.getElementById('form-section').scrollIntoView({behavior:'smooth'});
+}function shareToThreads(){
+  const score=document.getElementById('scoreNumber').textContent;
+  const rank=document.getElementById('scoreRank').textContent;
+  const shopName=document.getElementById('shopName').value||'自分の店';
+  const text=shopName+'のGEOスコアを診断した。\n\n結果：'+score+'点・'+rank+'\n\nChatGPT・Perplexity・Geminiに\n自分の店が認識されているか無料で診断できる。\n\nあなたの店は何点？👇\nhttps://geo-shindan.vercel.app\n\n#GEO対策 #飲食店経営 #AI活用';
+  window.open('https://www.threads.net/intent/post?text='+encodeURIComponent(text),'_blank');
 }
 </script>
 </body>
